@@ -35,8 +35,12 @@ const mainFunction = ({ addBase, addComponents, config }) => {
   }
 
   // inject components
-  let file = styled
-  if (config('flyonui.styled') === false) {
+  let file = '';
+  if (config('flyonui.styled') === true) {
+    file = styled
+  }
+
+  if (config('flyonui.unstyled') === true) {
     file = unstyled
   }
 
@@ -51,11 +55,13 @@ const mainFunction = ({ addBase, addComponents, config }) => {
     }
   }
   const shouldApplyPrefix = prefix && postcssJsProcess
-  if (shouldApplyPrefix) {
+  if (file && shouldApplyPrefix) {
     file = postcssJsProcess(file)
   }
 
-  addComponents(file)
+  if( file ) {
+    addComponents(file)
+  }
 
   // inject @vendors style
   if (config('flyonui.vendors') === true) {
